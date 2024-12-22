@@ -18,37 +18,37 @@ public class Endereco {
     private String complemento;
     private String numero;
 
-    public Endereco(DadosEndedeco dadosEndedeco) {
-        this.logradouro = dadosEndedeco.logradouro();
-        this.bairro = dadosEndedeco.bairro();
-        this.cep = dadosEndedeco.cep();
-        this.cidade = dadosEndedeco.cidade();
-        this.uf = dadosEndedeco.uf();
-        this.complemento = dadosEndedeco.complemento();
-        this.numero = dadosEndedeco.numero();
+    public Endereco(DadosEndereco dadosEndereco) {
+        this.logradouro = dadosEndereco.logradouro();
+        this.bairro = dadosEndereco.bairro();
+        this.cep = dadosEndereco.cep();
+        this.cidade = dadosEndereco.cidade();
+        this.uf = dadosEndereco.uf();
+        this.complemento = dadosEndereco.complemento();
+        this.numero = dadosEndereco.numero();
     }
 
-    public void atualizarEndereco(DadosEndedeco dadosEndedeco) {
-        if (dadosEndedeco.logradouro() != null) {
-            this.logradouro = dadosEndedeco.logradouro();
+    public void atualizarEndereco(DadosEndereco dadosEndereco) {
+        if (dadosEndereco.logradouro() != null) {
+            this.logradouro = dadosEndereco.logradouro();
         }
-        if (dadosEndedeco.bairro() != null) {
-            this.bairro = dadosEndedeco.bairro();
+        if (dadosEndereco.bairro() != null) {
+            this.bairro = dadosEndereco.bairro();
         }
-        if (dadosEndedeco.cep() != null) {
-            this.cep = dadosEndedeco.cep();
+        if (dadosEndereco.cep() != null) {
+            this.cep = dadosEndereco.cep();
         }
-        if (dadosEndedeco.cidade() != null) {
-            this.cidade = dadosEndedeco.cidade();
+        if (dadosEndereco.cidade() != null) {
+            this.cidade = dadosEndereco.cidade();
         }
-        if (dadosEndedeco.uf() != null) {
-            this.uf = dadosEndedeco.uf();
+        if (dadosEndereco.uf() != null) {
+            this.uf = dadosEndereco.uf();
         }
-        if (dadosEndedeco.complemento() != null) {
-            this.complemento = dadosEndedeco.complemento();
+        if (dadosEndereco.complemento() != null) {
+            this.complemento = dadosEndereco.complemento();
         }
-        if (dadosEndedeco.numero() != null) {
-            this.numero = dadosEndedeco.numero();
+        if (dadosEndereco.numero() != null) {
+            this.numero = dadosEndereco.numero();
         }
     }
 }
