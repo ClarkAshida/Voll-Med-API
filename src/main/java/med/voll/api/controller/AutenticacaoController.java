@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import med.voll.api.domain.usuario.DadosLogin;
 import med.voll.api.domain.usuario.Usuario;
 import med.voll.api.infra.security.TokenService;
+import med.voll.api.infra.security.dadosTokenJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,9 +24,17 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid DadosLogin dadosLogin) {
-        var token = new UsernamePasswordAuthenticationToken(dadosLogin.login(), dadosLogin.senha());
-        var authentication = authManager.authenticate(token);
-        return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
+    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosLogin dados) {
+        try {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+            var authentication = authManager.authenticate(authenticationToken);
+
+            var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+            return ResponseEntity.ok(new dadosTokenJWT(tokenJWT));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
