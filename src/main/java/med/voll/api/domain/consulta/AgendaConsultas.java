@@ -1,13 +1,13 @@
 package med.voll.api.domain.consulta;
 
-import aj.org.objectweb.asm.commons.Remapper;
-import jakarta.validation.Valid;
+import med.voll.api.domain.consulta.validacoes.agendamento.ValidadorAgendamentoConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaConsultas {
@@ -17,8 +17,10 @@ public class AgendaConsultas {
     private MedicoRepository medicoRepository;
     @Autowired
     private PacienteRepository pacienteRepository;
+    @Autowired
+    private List<ValidadorAgendamentoConsultas> validadores;
 
-    public void agendarConsulta(DadosAgendamentoConsulta dadosAgendamento) {
+    public DadosDetalhamentoConsulta agendarConsulta(DadosAgendamentoConsulta dadosAgendamento) {
         if (!pacienteRepository.existsById(dadosAgendamento.idPaciente())) {
             throw new IllegalArgumentException("Paciente não encontrado");
         }
@@ -26,11 +28,13 @@ public class AgendaConsultas {
             throw new IllegalArgumentException("Médico não encontrado");
         }
 
+        validadores.forEach(validador -> validador.validar(dadosAgendamento));
 
         var paciente = pacienteRepository.getReferenceById(dadosAgendamento.idPaciente());
         var medico = escolherMedico(dadosAgendamento);
         var consulta = new Consulta(null, medico, paciente, dadosAgendamento.data(), null);
         consultaRepository.save(consulta);
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dadosAgendamento) {
